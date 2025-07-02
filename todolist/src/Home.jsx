@@ -1,9 +1,18 @@
-import React from "react";
+import React,{ useState, useEffect } from "react";
 import Create from "./Create";
-import { useState } from "react";
-
+import axios from "axios";
 function Home() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([])
+  useEffect(() => {
+    axios.get("http://localhost:3001/get")
+    .then((res) => {
+      setTodos(res.data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+  }, [])
+
 
   return (
     <div>

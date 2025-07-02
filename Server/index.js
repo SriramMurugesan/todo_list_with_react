@@ -1,6 +1,7 @@
- const express = require("express")
+const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
+const TodoModel = require("./Models/Todo")
 
 const app = express()
 app.use(cors())
@@ -79,7 +80,16 @@ const taskSchema = new mongoose.Schema({
 });
 
 const Task = mongoose.model('Task', taskSchema);
-
+app.get("/get", async (req, res) => {
+    TodoModel.find()
+    .then((data) => {
+        res.send(data)
+    })
+    .catch((err) => {
+        console.log(err)
+    })
+})
+    
 // Routes
 app.post("/add", async (req, res) => {
     try {
