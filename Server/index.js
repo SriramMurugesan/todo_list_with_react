@@ -23,9 +23,6 @@ async function connectToMongoDB() {
         console.log('2. Make sure your IP is whitelisted in MongoDB Atlas');
         console.log('3. Verify your MongoDB connection string');
         console.log('4. Check if your MongoDB cluster is running\n');
-        
-        // Don't exit the process, let the server run without DB connection
-        // This allows the server to start and show proper error messages
     }
 }
 
@@ -62,39 +59,23 @@ process.on('SIGINT', async () => {
 // Initialize MongoDB connection
 connectToMongoDB();
 
-// Define Task model
-const taskSchema = new mongoose.Schema({
-    task: {
-        type: String,
-        required: true,
-        trim: true
-    },
-    completed: {
-        type: Boolean,
-        default: false
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
+// GET all todos
+app.get("/get", async (req, res) => {
+    try {
+        const todos = await TodoModel.find({}).sort({ createdAt: -1 });
+        res.json(todos);
+    } catch (err) {
+        console.error('Error fetching todos:', err);
+        res.status(500).json({ error: 'Failed to fetch todos' });
     }
 });
-
-const Task = mongoose.model('Task', taskSchema);
-app.get("/get", async (req, res) => {
-    TodoModel.find()
-    .then((data) => {
-        res.send(data)
-    })
-    .catch((err) => {
-        console.log(err)
-    })
-})
     
-// Routes
+// Add a new todo
 app.post("/add", async (req, res) => {
     try {
         const { task } = req.body;
-        console.log("inside  add")
+        console.log("Adding new task:", task);
+        
         if (!task || typeof task !== 'string' || !task.trim()) {
             return res.status(400).json({ error: 'Task is required and must be a non-empty string' });
         }
