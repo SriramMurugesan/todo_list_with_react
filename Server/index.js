@@ -84,7 +84,7 @@ const Task = mongoose.model('Task', taskSchema);
 app.post("/add", async (req, res) => {
     try {
         const { task } = req.body;
-        
+        console.log("inside  add")
         if (!task || typeof task !== 'string' || !task.trim()) {
             return res.status(400).json({ error: 'Task is required and must be a non-empty string' });
         }
