@@ -15,14 +15,14 @@ function Home() {
 
 
   return (
-    <div>
-      <h2>Todo List</h2>
+    <div className="home">
+      <h1>Todo List</h1>
       <Create />
       {todos.length === 0 ? 
         <div>
           <h2> No records found</h2>
         </div>
-       : todos.map((todo, index) => <div key={index}>{todo}</div>)
+       : todos.map((todo, index) => <div key={index}>{todo.task}</div>)
       }
     </div>
   );
