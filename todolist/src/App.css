@@ -12,54 +12,51 @@ div input[type="text"] {
 }
 
 div button[type="button"] {
-  padding: 10px;
-  background-color: black;
+  padding: 10px 20px;
+  background-color: #000;
   color: white;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
   margin-left: 10px;
+  transition: background-color 0.2s;
 }
 
-.task {
-  width: 100%;
-  max-width: 500px;
-  padding: 8px 12px;
-  margin: 4px 0;
-  background: #000;
+div button[type="button"]:hover {
+  background-color: #333;
+}
+
+/* Loading and error states */
+.loading, .error, .no-todos {
+  text-align: center;
+  padding: 20px;
+  margin: 10px 0;
   border-radius: 4px;
-  border: 1px solid #444;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  color: white;
-  display: inline-block;
 }
 
-.task:hover {
-  background: #1a1a1a;
+.loading {
+  color: #666;
+  background-color: #f8f9fa;
 }
 
-.task.completed .task-text {
-  text-decoration: line-through;
-  color: #6c757d;
+.error {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
 }
 
-.task-content {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.no-todos {
+  color: #666;
+  background-color: #f8f9fa;
+  border: 1px dashed #dee2e6;
 }
 
-.task-checkbox {
-  margin-right: 15px;
-  display: flex;
-  align-items: center;
-}
-
-.checkbox-circle {
-  width: 22px;
-  height: 22px;
+/* Custom Checkbox */
+.task .task-checkbox .custom-checkbox-circle {
+  width: 30px;
+  height: 30px;
+  min-width: 30px;
+  min-height: 30px;
   border-radius: 50%;
   background-color: white;
   color: black;
@@ -67,10 +64,89 @@ div button[type="button"] {
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 12px;
-  flex-shrink: 0;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  line-height: 1;
   transition: all 0.2s ease;
-  border: 1px solid #ddd;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+/* Completed todo item */
+.task.completed .task-text {
+  text-decoration: line-through;
+  color: #6c757d;
+  opacity: 0.8;
+}
+
+.task.completed .checkbox-circle {
+  background-color: #28a745;
+  color: white;
+}
+
+.task {
+  width: 100%;
+  max-width: 600px;
+  padding: 12px 25px;
+  margin: 6px 0;
+  background: #000;
+  border-radius: 6px;
+  border: 1px solid #444;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 15px;
+  min-height: 50px;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.task:hover {
+  background: darkgrey;
+}
+
+.task.completed .task-text {
+  text-decoration: line-through;
+  color: black;
+}
+
+.task-content {
+  display: contents; /* Remove this wrapper from layout */
+}
+
+.task-checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  grid-column: 1;
+  flex-shrink: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.checkbox-circle {
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  min-height: 30px !important;
+  border-radius: 50%;
+  background-color: white;
+  color: black;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px !important;
+  border: 2px solid #ccc !important;
+  line-height: 1;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .task.completed .checkbox-circle {
@@ -84,37 +160,105 @@ div button[type="button"] {
 }
 
 .task-text {
-  flex: 1;
-  margin: 0;
-  padding: 0 10px 0 8px;
+  grid-column: 2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: all 0.2s ease;
-  line-height: 1.2;
-  font-size: 14px;
+  font-size: 15px;
   color: white;
+  font-family: Arial, sans-serif;
+  letter-spacing: 0.2px;
+  line-height: 1.2;
+  padding-top: 1px;
 }
 
-.task-delete {
-  margin-left: auto;
-  padding: 0 5px;
+/* Task actions container */
+.task-actions {
+  grid-column: 3;
   display: flex;
+  gap: 8px;
   align-items: center;
+  margin-left: auto;
   opacity: 0;
-  transition: opacity 0.2s, color 0.2s;
-  font-size: 14px;
+  transition: opacity 0.2s;
 }
 
-.task:hover .task-delete {
+.task:hover .task-actions {
   opacity: 1;
 }
 
-.task-delete .icon {
-  color: #dc3545;
+/* Icons */
+.icon {
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s;
   font-size: 16px;
 }
 
-.task-delete:hover .icon {
+.edit-icon {
+  color: #ffc107;
+}
+
+.edit-icon:hover {
+  color: #e0a800;
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+.delete-icon {
+  color: #dc3545;
+}
+
+.delete-icon:hover {
   color: #c82333;
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+/* Edit input */
+.edit-input {
+  grid-column: 2;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #333;
+}
+
+.edit-input:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Action buttons */
+.action-btn {
+  padding: 4px 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.save-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.save-btn:hover {
+  background-color: #218838;
+}
+
+.cancel-btn {
+  background-color: #6c757d;
+  color: white;
+}
+
+.cancel-btn:hover {
+  background-color: #5a6268;
 }
