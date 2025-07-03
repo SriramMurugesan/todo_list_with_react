@@ -63,6 +63,7 @@ connectToMongoDB();
 app.get("/get", async (req, res) => {
     try {
         const todos = await TodoModel.find({}).sort({ createdAt: -1 });
+        console.log("Fetched todos:", todos);
         res.json(todos);
     } catch (err) {
         console.error('Error fetching todos:', err);
@@ -80,7 +81,7 @@ app.post("/add", async (req, res) => {
             return res.status(400).json({ error: 'Task is required and must be a non-empty string' });
         }
 
-        const newTask = new Task({ task });
+        const newTask = new TodoModel({ task });
         await newTask.save();
         
         console.log('New task created:', { id: newTask._id, task: newTask.task });

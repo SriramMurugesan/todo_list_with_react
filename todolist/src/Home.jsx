@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Create from "./Create";
 import axios from "axios";
+import { BsCircleFill, BsFillTrashFill } from "react-icons/bs";
 function Home() {
   const [todos, setTodos] = useState([]);
 
@@ -19,6 +20,17 @@ function Home() {
     fetchTodos();
   }, []);
 
+  const handleDelete = (id) => {
+    axios
+      .delete(`http://localhost:3001/delete/${id}`)
+      .then(() => {
+        fetchTodos();
+      })
+      .catch((err) => {
+        console.error("Error deleting todo:", err);
+      });
+  };
+
   return (
     <div className="home">
       <h1>Todo List</h1>
@@ -28,7 +40,17 @@ function Home() {
           <h1> No records found</h1>
         </div>
       ) : (
-        todos.map((todo, index) => <div key={index}>{todo.task}</div>)
+        todos.map((todo, index) => (
+          <div className="task" key={index}>
+            <div className="checkbox">
+              <BsCircleFill className="icon" />
+              <p>{todo.task}</p>
+            </div>
+            <div>
+              <BsFillTrashFill className="icon" />
+            </div>
+          </div>
+        ))
       )}
     </div>
   );

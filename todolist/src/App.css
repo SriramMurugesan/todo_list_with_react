@@ -30,3 +30,21 @@ div button[type="button"] {
   padding:2px 5px 2px 5px;
   margin-top: 2px;
 }
+
+.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+.checkbox .icon {
+  margin-right: 5px;
+  font-size: 15px;
+}
+
+.task div span {
+  margin-right: 0px 5px 0px 5px;
+}
+
+.task div .icon {
+  cursor: pointer;
+}
