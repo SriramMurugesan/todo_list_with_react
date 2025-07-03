@@ -3,7 +3,8 @@ import Create from "./Create";
 import axios from "axios";
 import { BsCircleFill, BsFillTrashFill } from "react-icons/bs";
 function Home() {
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useState([])
+  const [completedTodos, setCompletedTodos] = useState({});
 
   const fetchTodos = () => {
     axios
@@ -20,7 +21,8 @@ function Home() {
     fetchTodos();
   }, []);
 
-  const handleDelete = (id) => {
+  const handleDelete = (id, e) => {
+    e.stopPropagation(); // Prevent triggering the todo click when deleting
     axios
       .delete(`http://localhost:3001/delete/${id}`)
       .then(() => {
@@ -29,6 +31,13 @@ function Home() {
       .catch((err) => {
         console.error("Error deleting todo:", err);
       });
+  };
+
+  const toggleTodoComplete = (id) => {
+    setCompletedTodos(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
   };
 
   return (
@@ -41,13 +50,24 @@ function Home() {
         </div>
       ) : (
         todos.map((todo, index) => (
-          <div className="task" key={index}>
-            <div className="checkbox">
-              <BsCircleFill className="icon" />
-              <p>{todo.task}</p>
-            </div>
-            <div>
-              <BsFillTrashFill className="icon" />
+          <div 
+            className={`task ${completedTodos[todo._id] ? 'completed' : ''}`} 
+            key={index}
+            onClick={() => toggleTodoComplete(todo._id)}
+          >
+            <div className="task-content">
+              <div className="task-checkbox">
+                <div className="checkbox-circle">
+                  {todo.task[0].toUpperCase()}
+                </div>
+              </div>
+              <p className="task-text">{todo.task}</p>
+              <div 
+                className="task-delete"
+                onClick={(e) => handleDelete(todo._id, e)}
+              >
+                <BsFillTrashFill className="icon" title="Delete task" />
+              </div>
             </div>
           </div>
         ))

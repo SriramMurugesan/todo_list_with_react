@@ -20,31 +20,101 @@ div button[type="button"] {
 }
 
 .task {
-  display: flex;
-  align-items: center;
-  width: 300px;
-  justify-content: space-between;
-  background-color: black;
-  color: white;
-  height: 40px;
-  padding:2px 5px 2px 5px;
-  margin-top: 2px;
-}
-
-.checkbox {
-  display: flex;
-  align-items: center;
-}
-
-.checkbox .icon {
-  margin-right: 5px;
-  font-size: 15px;
-}
-
-.task div span {
-  margin-right: 0px 5px 0px 5px;
-}
-
-.task div .icon {
+  width: 100%;
+  max-width: 500px;
+  padding: 8px 12px;
+  margin: 4px 0;
+  background: #000;
+  border-radius: 4px;
+  border: 1px solid #444;
   cursor: pointer;
+  transition: all 0.2s ease;
+  color: white;
+  display: inline-block;
+}
+
+.task:hover {
+  background: #1a1a1a;
+}
+
+.task.completed .task-text {
+  text-decoration: line-through;
+  color: #6c757d;
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-checkbox {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.checkbox-circle {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 12px;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  border: 1px solid #ddd;
+}
+
+.task.completed .checkbox-circle {
+  background-color: #4CAF50;
+}
+
+.task.completed .task-text {
+  text-decoration: line-through;
+  color: #6c757d;
+  opacity: 0.8;
+}
+
+.task-text {
+  flex: 1;
+  margin: 0;
+  padding: 0 10px 0 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+  font-size: 14px;
+  color: white;
+}
+
+.task-delete {
+  margin-left: auto;
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+  font-size: 14px;
+}
+
+.task:hover .task-delete {
+  opacity: 1;
+}
+
+.task-delete .icon {
+  color: #dc3545;
+  font-size: 16px;
+}
+
+.task-delete:hover .icon {
+  color: #c82333;
 }
